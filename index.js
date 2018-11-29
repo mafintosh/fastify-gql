@@ -82,6 +82,7 @@ module.exports = fp(async function (app, opts) {
   app.decorateReply(graphqlCtx, null)
 
   app.decorateReply('graphql', function (source, context, variables, operationName) {
+    if (typeof context === 'function') context = context({ request: reply.request })
     return app.graphql(source, Object.assign({ reply: this }, context), variables, operationName)
   })
 
